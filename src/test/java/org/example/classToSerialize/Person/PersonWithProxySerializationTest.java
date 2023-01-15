@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Properties;
 
 class PersonWithProxySerializationTest {
 
@@ -25,5 +26,12 @@ class PersonWithProxySerializationTest {
         }
 
         Assertions.assertSame(personWithProxySerialization, deserializePerson);
+    }
+
+    @Test
+    public void test_properties_access() throws IOException {
+        PersonWithProxySerialization p = PersonWithProxySerialization.INSTANCE;
+        Properties props = p.propertiesAccess("application.properties");
+        Assertions.assertEquals(props.getProperty("tmpKey"), "tmpVal");
     }
 }

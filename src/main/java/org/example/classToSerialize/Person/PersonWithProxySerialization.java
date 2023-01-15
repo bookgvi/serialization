@@ -1,7 +1,10 @@
 package org.example.classToSerialize.Person;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.util.Properties;
 
 public class PersonWithProxySerialization implements java.io.Serializable {
 
@@ -27,5 +30,13 @@ public class PersonWithProxySerialization implements java.io.Serializable {
 
     private void readObject(ObjectInputStream inputStream) throws InvalidObjectException {
         throw new InvalidObjectException("Proxy required...");
+    }
+
+    public Properties propertiesAccess(String propsFileName) throws IOException {
+        propsFileName = propsFileName == null || propsFileName.isEmpty() ? "/application.properties" : propsFileName;
+        Properties props = new Properties();
+        InputStream in = getClass().getClassLoader().getResourceAsStream(propsFileName);
+        props.load(in);
+        return props;
     }
 }
